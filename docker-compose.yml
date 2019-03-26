@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
+    volumes:
+      - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
+
+
+
+  rabbitmq-consumer:
+    build: rabbitmq-consumer/
+    restart: always
+    network_mode: "host"
+    ports:
+      - 8002:8002
+
+  rabbitmq-consumer2:
+   build: rabbitmq-consumer2/
+   restart: always
+   network_mode: "host"
+   ports:
+    - 8003:8003
+
+  rabbitmq-consumer3:
+   build: rabbitmq-consumer3/
+   restart: always
+   network_mode: "host"
+   ports:
+    - 8004:8004
+
+  rabbitmq-producer:
+    build: rabbitmq-producer/
+    restart: always
+    network_mode: "host"
+    hostname: localhost
+    ports:
+      - 8001:8001
+
+
